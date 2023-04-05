@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "48602770629",
+    "project_id": "racebattletactic",
+    "storage_bucket": "racebattletactic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:48602770629:android:fc8453577958cadb9054ac",
+        "android_client_info": {
+          "package_name": "com.racetacticbattle.game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "48602770629-jkrf31vrl7g4t9063ukapic5656u4c8n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBcEEPntUTiiMxriZUpC0mQ0legiCYmBY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "48602770629-jkrf31vrl7g4t9063ukapic5656u4c8n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
