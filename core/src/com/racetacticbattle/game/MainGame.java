@@ -42,7 +42,7 @@ public class MainGame extends Game {
 		camera2d = new OrthographicCamera();
 		camera3d = new PerspectiveCamera();
 		viewport = new StretchViewport(Common.WORLD_WIDTH, Common.WORLD_HEIGHT, camera2d);
-		screenCache = new EnumMap<ScreenType, AbstractScreen>(ScreenType.class);
+		screenCache = new EnumMap<>(ScreenType.class);
 		batch2d = new SpriteBatch();
 		batch3d = new ModelBatch();
 		setScreen(ScreenType.LOGIN);

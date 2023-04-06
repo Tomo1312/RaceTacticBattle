@@ -1,11 +1,13 @@
 package com.racetacticbattle.game.Inputs;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.racetacticbattle.game.MainGame;
+import com.racetacticbattle.game.MenuModels.LoadingDialog;
 import com.racetacticbattle.game.MenuModels.MenuButton;
 import com.racetacticbattle.game.MenuModels.MenuDialog;
 import com.racetacticbattle.game.MenuModels.MenuInput;
@@ -30,13 +32,17 @@ public class CustomInputProcessor implements InputProcessor {
     Stage stage;
     ScreenType screenType;
     MenuDialog menuDialog;
+    InputMultiplexer inputMultiplexer;
+    LoadingDialog loadingDialog;
 
-    public CustomInputProcessor(MainGame context, StretchViewport viewport, ArrayList<MenuButton> menuButtons, ArrayList<MenuInput> menuInputs, Stage stage) {
+    public CustomInputProcessor(MainGame context, StretchViewport viewport, ArrayList<MenuButton> menuButtons, ArrayList<MenuInput> menuInputs, Stage stage, InputMultiplexer inputMultiplexer, LoadingDialog loadingDialog) {
         this.context = context;
         this.viewport = viewport;
         this.menuButtons = menuButtons;
         this.menuInputs = menuInputs;
         this.stage = stage;
+        this.inputMultiplexer = inputMultiplexer;
+        this.loadingDialog = loadingDialog;
     }
 
     @Override
@@ -56,11 +62,6 @@ public class CustomInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Vector2 touchPoint = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-        touchPoint = viewport.unproject(touchPoint);
-        for (MenuButton menuButton : menuButtons) {
-            menuButton.isPressed(touchPoint.x, touchPoint.y);
-        }
         if (menuDialog != null) {
             menuDialog.clear();
         }
@@ -71,15 +72,14 @@ public class CustomInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        Vector2 touchPoint = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-        touchPoint = viewport.unproject(touchPoint);
-
-        switch (screenType){
+//        Vector2 touchPoint = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+//        touchPoint = viewport.unproject(touchPoint);
+        switch (screenType) {
             case LOGIN:
-                handleTouchForLogin(touchPoint);
+                handleTouchForLogin();
                 break;
             case REGISTER:
-                handleTouchForRegister(touchPoint);
+                handleTouchForRegister();
                 break;
             default:
                 break;
@@ -87,11 +87,12 @@ public class CustomInputProcessor implements InputProcessor {
         return false;
     }
 
-    private void handleTouchForLogin(Vector2 touchPoint) {
+    private void handleTouchForLogin() {
         for (MenuButton menuButton : menuButtons) {
-            if (menuButton.isPressedUp(touchPoint.x, touchPoint.y)) {
+            if (menuButton.isPressed()) {
                 switch (menuButton.getButtonId()) {
                     case 0:
+                        loadingDialog.show(menuButtons, menuInputs);
                         if (!menuInputs.get(0).getText().equals("") && menuInputs.get(0).getText() != null &&
                                 !menuInputs.get(1).getText().equals("") && menuInputs.get(1).getText() != null) {
                             GdxFIRAuth.inst()
@@ -99,35 +100,40 @@ public class CustomInputProcessor implements InputProcessor {
                                     .then(new Consumer<GdxFirebaseUser>() {
                                         @Override
                                         public void accept(GdxFirebaseUser gdxFirebaseUser) {
+                                            loadingDialog.clear(menuButtons, menuInputs);
                                             menuButtons.clear();
                                             menuInputs.clear();
-                                            context.setScreen(ScreenType.MAIN_MENU);
+                                            inputMultiplexer.clear();
                                         }
                                     }).fail(new BiConsumer<String, Throwable>() {
                                         @Override
                                         public void accept(String s, Throwable throwable) {
+
+                                            loadingDialog.clear(menuButtons, menuInputs);
                                             menuDialog = new MenuDialog("Sign in failed");
                                             menuDialog.showText(s, stage);
                                         }
                                     });
                         } else {
+                            loadingDialog.clear(menuButtons, menuInputs);
                             menuDialog = new MenuDialog("Error with login");
                             menuDialog.showText("Inputs are empty", stage);
                         }
                         break;
                     case 1:
-                        context.setScreen(ScreenType.REGISTER);
+//                        context.setScreen(ScreenType.REGISTER);
                         break;
                 }
             }
         }
     }
 
-    private void handleTouchForRegister(Vector2 touchPoint) {
+    private void handleTouchForRegister() {
         for (MenuButton menuButton : menuButtons) {
-            if (menuButton.isPressedUp(touchPoint.x, touchPoint.y)) {
+            if (menuButton.isPressed()) {
                 switch (menuButton.getButtonId()) {
                     case 0:
+                        loadingDialog.show(menuButtons, menuInputs);
                         if (!menuInputs.get(0).getText().equals("") && menuInputs.get(0).getText() != null &&
                                 !menuInputs.get(1).getText().equals("") && menuInputs.get(1).getText() != null &&
                                 !menuInputs.get(2).getText().equals("") && menuInputs.get(2).getText() != null &&
@@ -144,6 +150,7 @@ public class CustomInputProcessor implements InputProcessor {
                                                         .setValue(userTmp);
 //                                                        gdxFirebaseUser.delete().subscribe();
 
+                                                loadingDialog.clear(menuButtons, menuInputs);
                                                 menuDialog = new MenuDialog("Great success");
                                                 menuDialog.showText("Successfully registered!", stage);
                                             }
@@ -151,6 +158,7 @@ public class CustomInputProcessor implements InputProcessor {
                                         .fail(new BiConsumer<String, Throwable>() {
                                             @Override
                                             public void accept(String s, Throwable throwable) {
+                                                loadingDialog.clear(menuButtons, menuInputs);
                                                 menuDialog = new MenuDialog("Error with Register");
                                                 menuDialog.showText(s, stage);
                                                 if (s.contains("The email address is already in use by another account")) {
@@ -159,10 +167,12 @@ public class CustomInputProcessor implements InputProcessor {
                                             }
                                         });
                             } else {
+                                loadingDialog.clear(menuButtons, menuInputs);
                                 menuDialog = new MenuDialog("Error with Register");
                                 menuDialog.showText("Passwords are not same", stage);
                             }
                         } else {
+                            loadingDialog.clear(menuButtons, menuInputs);
                             menuDialog = new MenuDialog("Error with Register");
                             menuDialog.showText("Inputs are empty", stage);
                         }
@@ -178,11 +188,6 @@ public class CustomInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        Vector2 touchPoint = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-        touchPoint = viewport.unproject(touchPoint);
-        for (MenuButton menuButton : menuButtons) {
-            menuButton.isDragged(touchPoint.x, touchPoint.y);
-        }
         return false;
     }
 
@@ -197,7 +202,7 @@ public class CustomInputProcessor implements InputProcessor {
     }
 
     public void setScreenType(ScreenType screenType) {
-        this.screenType= screenType;
+        this.screenType = screenType;
     }
 }
 

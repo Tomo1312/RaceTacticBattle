@@ -1,6 +1,7 @@
 package com.racetacticbattle.game.MenuModels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -14,18 +15,9 @@ import com.racetacticbattle.game.Screens.ScreenType;
 public class MenuInput extends TextField {
 
     private final int buttonId;
-    Rectangle boundingBox;
     float buttonContainerWidth = Common.WORLD_WIDTH * 0.9f/2;
     float buttonContainerHeight;
 
-    //font
-    BitmapFont font;
-    FreeTypeFontGenerator.FreeTypeFontParameter fontParameter;
-    FreeTypeFontGenerator fontGenerator;
-    GlyphLayout layout;
-
-    boolean pressed;
-    ScreenType screenType;
 
     public MenuInput(Skin skin, Boolean password, int i, int j, ScreenType mainMenuScreen, String textInput) {
         super("", skin);
@@ -50,41 +42,13 @@ public class MenuInput extends TextField {
         }
         positionY = buttonContainerHeight - buttonContainerHeight / boxDivider * j;
         setPosition(positionX,  positionY);
+
         setSize(buttonContainerWidth, buttonContainerHeight / 6);
+//        setColor(Color.GRAY);
         setMessageText(textInput);
         setPasswordCharacter('*');
         setPasswordMode(password);
         this.buttonId = i;
-//        String str = new String();
-//        switch (screenType) {
-//            case SETTINGS:
-//                switch (i) {
-//                    case 1:
-//                        str = "Change Account";
-//                        break;
-//                    case 3:
-//                        str = "Language";
-//                        break;
-//                    default:
-//                        str = "Back";
-//
-//
-//                }
-//                break;
-//            case MAIN_MENU:
-//                switch (i) {
-//                    case 1:
-//                        str = "Exit";
-//                        break;
-//                    case 3:
-//                        str = "Settings";
-//                        break;
-//                    default:
-//                        str = "Play";
-//
-//                }
-//                break;
-//        }
 
     }
 

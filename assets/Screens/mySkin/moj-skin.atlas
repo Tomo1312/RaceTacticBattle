@@ -1,0 +1,394 @@
+
+moj-skin.png
+size: 512, 512
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+Button2
+  rotate: false
+  xy: 1, 380
+  size: 280, 50
+  orig: 280, 50
+  offset: 0, 0
+  index: -1
+CheckBox
+  rotate: false
+  xy: 369, 336
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+CheckBoxOn
+  rotate: false
+  xy: 32, 11
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+IMMORTAL
+  rotate: false
+  xy: 1, 432
+  size: 506, 78
+  orig: 506, 78
+  offset: 0, 0
+  index: -1
+RadioCheck
+  rotate: false
+  xy: 180, 215
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+RadioCheckOn
+  rotate: false
+  xy: 77, 61
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ScrollBar
+  rotate: false
+  xy: 283, 420
+  size: 200, 10
+  orig: 200, 10
+  offset: 0, 0
+  index: -1
+ScrollBarAfter
+  rotate: false
+  xy: 1, 319
+  size: 199, 7
+  orig: 199, 7
+  offset: 0, 0
+  index: -1
+ScrollBarV
+  rotate: false
+  xy: 498, 230
+  size: 10, 200
+  orig: 10, 200
+  offset: 0, 0
+  index: -1
+ScrollPointer
+  rotate: false
+  xy: 115, 199
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+ScrollPointerHorizontal
+  rotate: false
+  xy: 77, 79
+  size: 23, 24
+  orig: 23, 24
+  offset: 0, 0
+  index: -1
+Texture
+  rotate: false
+  xy: 1, 29
+  size: 74, 74
+  split: 8, 8, 0, 0
+  pad: 8, 8, 8, 9
+  orig: 74, 74
+  offset: 0, 0
+  index: -1
+button-arcade
+  rotate: false
+  xy: 283, 334
+  size: 84, 84
+  split: 0, 0, 0, 0
+  pad: 18, 18, 25, 38
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+button-arcade
+  rotate: false
+  xy: 283, 334
+  size: 84, 84
+  split: 0, 0, 0, 0
+  pad: 18, 18, 25, 38
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+button-arcade-pressed
+  rotate: false
+  xy: 115, 233
+  size: 84, 84
+  split: 0, 0, 0, 0
+  pad: 18, 18, 30, 33
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+button-arcade-pressed
+  rotate: false
+  xy: 115, 233
+  size: 84, 84
+  split: 0, 0, 0, 0
+  pad: 18, 18, 30, 33
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+button-close-over
+  rotate: false
+  xy: 387, 336
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-close-over
+  rotate: false
+  xy: 387, 336
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-close-pressed
+  rotate: false
+  xy: 50, 11
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-close-pressed
+  rotate: false
+  xy: 50, 11
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-maximize
+  rotate: false
+  xy: 77, 43
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-maximize
+  rotate: false
+  xy: 77, 43
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-maximize-over
+  rotate: false
+  xy: 404, 336
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-maximize-over
+  rotate: false
+  xy: 404, 336
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-maximize-pressed
+  rotate: false
+  xy: 77, 25
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-minimize
+  rotate: false
+  xy: 202, 310
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-minimize
+  rotate: false
+  xy: 202, 310
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-minimize-over
+  rotate: false
+  xy: 219, 310
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-minimize-over
+  rotate: false
+  xy: 219, 310
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-minimize-pressed
+  rotate: false
+  xy: 236, 310
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+button-minimize-pressed
+  rotate: false
+  xy: 236, 310
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+cursor
+  rotate: false
+  xy: 509, 504
+  size: 2, 6
+  split: 0, 0, 1, 1
+  pad: 0, 0, 0, 0
+  orig: 2, 6
+  offset: 0, 0
+  index: -1
+cursor
+  rotate: false
+  xy: 509, 504
+  size: 2, 6
+  split: 0, 0, 1, 1
+  pad: 0, 0, 0, 0
+  orig: 2, 6
+  offset: 0, 0
+  index: -1
+font-export
+  rotate: false
+  xy: 1, 105
+  size: 98, 98
+  orig: 98, 98
+  offset: 0, 0
+  index: -1
+resize
+  rotate: false
+  xy: 485, 420
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+touchpad
+  rotate: false
+  xy: 1, 205
+  size: 112, 112
+  orig: 112, 112
+  offset: 0, 0
+  index: -1
+touchpad
+  rotate: false
+  xy: 1, 205
+  size: 112, 112
+  orig: 112, 112
+  offset: 0, 0
+  index: -1
+touchpad-knob
+  rotate: false
+  xy: 369, 354
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+touchpad-knob
+  rotate: false
+  xy: 369, 354
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+tree-minus
+  rotate: false
+  xy: 1, 4
+  size: 29, 23
+  orig: 29, 23
+  offset: 0, 0
+  index: -1
+tree-minus
+  rotate: false
+  xy: 1, 4
+  size: 29, 23
+  orig: 29, 23
+  offset: 0, 0
+  index: -1
+tree-plus
+  rotate: false
+  xy: 149, 208
+  size: 29, 23
+  orig: 29, 23
+  offset: 0, 0
+  index: -1
+tree-plus
+  rotate: false
+  xy: 149, 208
+  size: 29, 23
+  orig: 29, 23
+  offset: 0, 0
+  index: -1
+white
+  rotate: false
+  xy: 1, 1
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+white
+  rotate: false
+  xy: 1, 1
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+white-pixel
+  rotate: false
+  xy: 1, 1
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+white-pixel
+  rotate: false
+  xy: 1, 1
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+window
+  rotate: false
+  xy: 435, 351
+  size: 61, 67
+  split: 10, 12, 23, 13
+  pad: 12, 14, 25, 7
+  orig: 61, 67
+  offset: 0, 0
+  index: -1
+window
+  rotate: false
+  xy: 435, 351
+  size: 61, 67
+  split: 10, 12, 23, 13
+  pad: 12, 14, 25, 7
+  orig: 61, 67
+  offset: 0, 0
+  index: -1
+window-main
+  rotate: false
+  xy: 201, 250
+  size: 15, 58
+  split: 1, 1, 21, 16
+  pad: 0, 16, 23, 1
+  orig: 15, 58
+  offset: 0, 0
+  index: -1
+window-main
+  rotate: false
+  xy: 201, 250
+  size: 15, 58
+  split: 1, 1, 21, 16
+  pad: 0, 16, 23, 1
+  orig: 15, 58
+  offset: 0, 0
+  index: -1
+Button
+  rotate: false
+  xy: 1, 328
+  size: 280, 50
+  split: 44, 43, 6, 7
+  pad: 0, 0, 0, 0
+  orig: 280, 50
+  offset: 0, 0
+  index: -1

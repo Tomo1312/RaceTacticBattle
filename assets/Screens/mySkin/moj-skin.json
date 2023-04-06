@@ -1,0 +1,253 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	IMMORTAL: {
+		file: IMMORTAL.fnt
+		scaledSize: 16
+		markupEnabled: false
+		flip: false
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	BLACK: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+	color: {
+		r: 1
+		g: 1
+		b: 1
+		a: 1
+	}
+	FontColor: {
+		r: 0.81960785
+		g: 0.6862745
+		b: 0.5294118
+		a: 1
+	}
+	Green: {
+		r: 0.30588236
+		g: 1
+		b: 0.49411765
+		a: 1
+	}
+	selection: {
+		r: 0.70333326
+		g: 0.70333326
+		b: 0.70333326
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+	button-arcade-c: {
+		name: button-arcade
+		color: color
+	}
+	button-arcade-pressed-c: {
+		name: button-arcade-pressed
+		color: color
+	}
+	button-close-over-c: {
+		name: button-close-over
+		color: color
+	}
+	button-close-pressed-c: {
+		name: button-close-pressed
+		color: color
+	}
+	button-maximize-c: {
+		name: button-maximize
+		color: color
+	}
+	button-maximize-over-c: {
+		name: button-maximize-over
+		color: color
+	}
+	button-minimize-c: {
+		name: button-minimize
+		color: color
+	}
+	button-minimize-over-c: {
+		name: button-minimize-over
+		color: color
+	}
+	button-minimize-pressed-c: {
+		name: button-minimize-pressed
+		color: color
+	}
+	cursor-c: {
+		name: cursor
+		color: color
+	}
+	touchpad-c: {
+		name: touchpad
+		color: color
+	}
+	touchpad-knob-c: {
+		name: touchpad-knob
+		color: color
+	}
+	tree-minus-c: {
+		name: tree-minus
+		color: color
+	}
+	tree-plus-c: {
+		name: tree-plus
+		color: color
+	}
+	window-c: {
+		name: window
+		color: color
+	}
+	window-main-c: {
+		name: window-main
+		color: color
+	}
+	color: {
+		name: white
+		color: color
+	}
+	BlackTint: {
+		name: white-pixel
+		color: BLACK
+	}
+	Selection: {
+		name: white-pixel
+		color: selection
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		down: Button2
+	}
+	minimize: {
+		up: button-minimize-c
+		down: button-minimize-pressed-c
+		over: button-minimize-over-c
+	}
+	maximize: {
+		up: button-maximize-c
+		over: button-maximize-over-c
+	}
+	close: {
+		down: button-close-pressed-c
+		over: button-close-over-c
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+	default: {
+		checkboxOn: CheckBoxOn
+		checkboxOff: CheckBox
+		font: IMMORTAL
+		fontColor: color
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+	default: {
+		down: Button2
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
+	default: {
+		font: IMMORTAL
+		fontColor: FontColor
+		down: Button2
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: IMMORTAL
+		fontColor: FontColor
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
+	default: {
+		font: IMMORTAL
+		fontColorSelected: BLACK
+		fontColorUnselected: FontColor
+		selection: Selection
+		background: Texture
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
+	default-horizontal: {
+		background: ScrollBar
+		knob: ScrollBarAfter
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+	default: {
+		background: Texture
+		hScroll: ScrollBar
+		hScrollKnob: ScrollPointerHorizontal
+		vScroll: ScrollBarV
+		vScrollKnob: ScrollPointer
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
+	default: {
+		font: IMMORTAL
+		fontColor: FontColor
+		background: Texture
+		scrollStyle: default
+		listStyle: default
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
+	default-horizontal: {
+		knobOver: ScrollPointer
+		knobDown: ScrollPointer
+		background: ScrollBar
+		knob: ScrollPointer
+		knobBefore: ScrollBarAfter
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
+	default-horizontal: {
+		handle: ScrollBarV
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: IMMORTAL
+		fontColor: color
+		up: Button
+		down: Button2
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+	default: {
+		font: IMMORTAL
+		fontColor: FontColor
+		focusedFontColor: color
+		background: Texture
+		cursor: cursor-c
+		messageFont: IMMORTAL
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
+	default: {
+		background: touchpad-c
+		knob: touchpad-knob-c
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle: {
+	default: {
+		plus: tree-plus-c
+		minus: tree-minus-c
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+	default: {
+		background: window
+		titleFont: IMMORTAL
+		titleFontColor: BLACK
+	}
+}
+}

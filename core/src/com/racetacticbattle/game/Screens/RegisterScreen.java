@@ -21,7 +21,9 @@ public class RegisterScreen extends LoginRegisterAbstractScreen {
             } else {
                 buttonTitle = "Login";
             }
-            menuButtons.add(new MenuButton(button, pressed_texture, i, j, buttonTitle));
+            MenuButton menuButton = new MenuButton(skin, i, j, buttonTitle);
+            menuButtons.add(menuButton);
+            stage.addActor(menuButton);
             j += 2;
         }
         j = 1;
@@ -58,15 +60,12 @@ public class RegisterScreen extends LoginRegisterAbstractScreen {
         Color c = batch2d.getColor();
         batch2d.setColor(c.r, c.g, c.b, .5f);
         batch2d.draw(background, 0, 0, Common.WORLD_WIDTH, Common.WORLD_HEIGHT);
-        batch2d.setColor(c.r, c.g, c.b, 1);
-
-        for (MenuButton menuButton : menuButtons) {
-            menuButton.draw(batch2d);
-        }
+//        batch2d.setColor(c.r, c.g,c.b, 1);
         handleInput();
+        batch2d.end();
         stage.draw();
         stage.act();
-        batch2d.end();
+        loadingDialog.draw(delta, batch2d);
     }
 
     void handleInput() {
