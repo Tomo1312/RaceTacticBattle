@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -21,6 +22,7 @@ import com.racetacticbattle.game.Screens.ScreenType;
 
 import java.util.EnumMap;
 import pl.mk5.gdx.fireapp.GdxFIRApp;
+import pl.mk5.gdx.fireapp.GdxFIRAuth;
 
 public class MainGame extends Game {
 	private EnumMap<ScreenType, AbstractScreen> screenCache;
@@ -35,6 +37,7 @@ public class MainGame extends Game {
 	//For 3D camera
 	private PerspectiveCamera camera3d;
 	ModelBatch batch3d;
+	Stage stage;
 	@Override
 	public void create () {
 		GdxFIRApp.inst().configure();
@@ -45,7 +48,14 @@ public class MainGame extends Game {
 		screenCache = new EnumMap<>(ScreenType.class);
 		batch2d = new SpriteBatch();
 		batch3d = new ModelBatch();
-		setScreen(ScreenType.LOGIN);
+		stage = new Stage(viewport);
+
+		if ( GdxFIRAuth.inst().getCurrentUser()!= null){
+			setScreen(ScreenType.MAIN_MENU);
+		}else{
+			setScreen(ScreenType.LOGIN);
+		}
+
 	}
 
 	@Override
@@ -90,5 +100,9 @@ public class MainGame extends Game {
 
 	public ModelBatch getBatch3d() {
 		return batch3d;
+	}
+
+	public Stage getStage() {
+		return stage;
 	}
 }

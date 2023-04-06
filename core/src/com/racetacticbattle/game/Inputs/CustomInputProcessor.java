@@ -104,6 +104,8 @@ public class CustomInputProcessor implements InputProcessor {
                                             menuButtons.clear();
                                             menuInputs.clear();
                                             inputMultiplexer.clear();
+                                            stage.clear();
+                                            context.setScreen(ScreenType.MAIN_MENU);
                                         }
                                     }).fail(new BiConsumer<String, Throwable>() {
                                         @Override
@@ -121,7 +123,7 @@ public class CustomInputProcessor implements InputProcessor {
                         }
                         break;
                     case 1:
-//                        context.setScreen(ScreenType.REGISTER);
+                        context.setScreen(ScreenType.REGISTER);
                         break;
                 }
             }

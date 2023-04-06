@@ -16,7 +16,6 @@ import pl.mk5.gdx.fireapp.functional.BiConsumer;
 import pl.mk5.gdx.fireapp.functional.Consumer;
 
 public class LoginScreen extends LoginRegisterAbstractScreen {
-    InputProcessor inputProcessor;
     public LoginScreen(MainGame context) {
         super(context);
         int j = 1;
@@ -49,7 +48,7 @@ public class LoginScreen extends LoginRegisterAbstractScreen {
             j += 2;
 
         }
-        GdxFIRAuth.inst().signOut();
+
     }
 
     @Override
@@ -65,7 +64,6 @@ public class LoginScreen extends LoginRegisterAbstractScreen {
         Color c = batch2d.getColor();
         batch2d.setColor(c.r, c.g, c.b, 0.5f);
         batch2d.draw(background, 0, 0, Common.WORLD_WIDTH, Common.WORLD_HEIGHT);
-//        batch2d.setColor(c.r, c.g, c.b, 1);
         handleInput();
         batch2d.end();
         stage.draw();
@@ -74,54 +72,7 @@ public class LoginScreen extends LoginRegisterAbstractScreen {
     }
 
     void handleInput() {
-        inputProcessor = new InputProcessor() {
-            @Override
-            public boolean keyDown(int keycode) {
-                return false;
-            }
-
-            @Override
-            public boolean keyUp(int keycode) {
-                return false;
-            }
-
-            @Override
-            public boolean keyTyped(char character) {
-                return false;
-            }
-
-            @Override
-            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                if (menuDialog != null) {
-                    menuDialog.clear();
-                }
-                stage.unfocusAll();
-                Gdx.input.setOnscreenKeyboardVisible(false);
-                return false;
-            }
-
-            @Override
-            public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-                handleTouchForLogin();
-                return false;
-            }
-
-            @Override
-            public boolean touchDragged(int screenX, int screenY, int pointer) {
-                return false;
-            }
-
-            @Override
-            public boolean mouseMoved(int screenX, int screenY) {
-                return false;
-            }
-
-            @Override
-            public boolean scrolled(float amountX, float amountY) {
-                return false;
-            }
-        };
-        inputMultiplexer.addProcessor(inputProcessor);
+        inputMultiplexer.addProcessor(customInputProcessor);
         inputMultiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
@@ -180,11 +131,5 @@ public class LoginScreen extends LoginRegisterAbstractScreen {
     @Override
     public void hide() {
 
-    }
-
-    @Override
-    public void dispose() {
-        batch2d.dispose();
-        stage.dispose();
     }
 }

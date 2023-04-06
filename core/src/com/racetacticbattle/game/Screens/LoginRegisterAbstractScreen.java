@@ -43,9 +43,4 @@ public abstract class LoginRegisterAbstractScreen extends AbstractScreen {
     }
     abstract void handleInput();
 
-    @Override
-    public void dispose() {
-        batch2d.dispose();
-        stage.dispose();
-    }
 }

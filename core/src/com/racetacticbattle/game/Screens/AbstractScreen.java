@@ -30,13 +30,21 @@ public abstract class AbstractScreen implements Screen {
         this.camera3d =context.getCamera3d();
         this.batch2d = context.getBatch2d();
         this.batch3d = context.getBatch3d();
-
-        this.stage = new Stage(context.getViewport());
+        this.stage = context.getStage();
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
         camera2d.update();
+        camera3d.update();
+    }
+
+    @Override
+    public void dispose() {
+        batch2d.dispose();
+        batch3d.dispose();
+        stage.dispose();
+
     }
 }
