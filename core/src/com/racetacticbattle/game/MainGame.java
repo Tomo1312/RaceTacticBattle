@@ -21,47 +21,48 @@ import com.racetacticbattle.game.Screens.AbstractScreen;
 import com.racetacticbattle.game.Screens.ScreenType;
 
 import java.util.EnumMap;
+
 import pl.mk5.gdx.fireapp.GdxFIRApp;
 import pl.mk5.gdx.fireapp.GdxFIRAuth;
 
 public class MainGame extends Game {
-	private EnumMap<ScreenType, AbstractScreen> screenCache;
+    private EnumMap<ScreenType, AbstractScreen> screenCache;
 
-	//For touch x-y coordinates in 2D
-	private StretchViewport viewport;
+    //For touch x-y coordinates in 2D
+    private StretchViewport viewport;
 
-	//For 2D camera
-	private OrthographicCamera camera2d;
-	SpriteBatch batch2d;
+    //For 2D camera
+    private OrthographicCamera camera2d;
+    SpriteBatch batch2d;
 
-	//For 3D camera
-	private PerspectiveCamera camera3d;
-	ModelBatch batch3d;
-	Stage stage;
-	@Override
-	public void create () {
-		GdxFIRApp.inst().configure();
-		Gdx.app.setLogLevel(Application.LOG_DEBUG);
-		camera2d = new OrthographicCamera();
-		camera3d = new PerspectiveCamera();
-		viewport = new StretchViewport(Common.WORLD_WIDTH, Common.WORLD_HEIGHT, camera2d);
-		screenCache = new EnumMap<>(ScreenType.class);
-		batch2d = new SpriteBatch();
-		batch3d = new ModelBatch();
-		stage = new Stage(viewport);
+    //For 3D camera
+    private PerspectiveCamera camera3d;
+    ModelBatch batch3d;
+    Stage stage;
 
-		if ( GdxFIRAuth.inst().getCurrentUser()!= null){
-			setScreen(ScreenType.MAIN_MENU);
-		}else{
-			setScreen(ScreenType.LOGIN);
-		}
+    @Override
+    public void create() {
+        GdxFIRApp.inst().configure();
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        camera2d = new OrthographicCamera();
+        camera3d = new PerspectiveCamera();
+        viewport = new StretchViewport(Common.WORLD_WIDTH, Common.WORLD_HEIGHT, camera2d);
+        screenCache = new EnumMap<>(ScreenType.class);
+        batch2d = new SpriteBatch();
+        batch3d = new ModelBatch();
 
-	}
+        if (GdxFIRAuth.inst().getCurrentUser() != null) {
+            setScreen(ScreenType.MAIN_MENU);
+        } else {
+            setScreen(ScreenType.LOGIN);
+        }
 
-	@Override
-	public void render () {
-		super.render();
-	}
+    }
+
+    @Override
+    public void render() {
+        super.render();
+    }
 
     public void setScreen(final ScreenType screenType) {
         final Screen screen = screenCache.get(screenType);
@@ -77,32 +78,33 @@ public class MainGame extends Game {
             setScreen(screen);
         }
     }
-	@Override
-	public void dispose () {
-		super.dispose();
-	}
 
-	public StretchViewport getViewport() {
-		return viewport;
-	}
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
 
-	public OrthographicCamera getCamera2d() {
-		return camera2d;
-	}
+    public StretchViewport getViewport() {
+        return viewport;
+    }
 
-	public SpriteBatch getBatch2d() {
-		return batch2d;
-	}
+    public OrthographicCamera getCamera2d() {
+        return camera2d;
+    }
 
-	public PerspectiveCamera getCamera3d() {
-		return camera3d;
-	}
+    public SpriteBatch getBatch2d() {
+        return batch2d;
+    }
 
-	public ModelBatch getBatch3d() {
-		return batch3d;
-	}
+    public PerspectiveCamera getCamera3d() {
+        return camera3d;
+    }
 
-	public Stage getStage() {
-		return stage;
-	}
+    public ModelBatch getBatch3d() {
+        return batch3d;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
 }

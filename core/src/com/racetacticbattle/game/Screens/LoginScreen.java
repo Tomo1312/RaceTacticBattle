@@ -1,25 +1,24 @@
 package com.racetacticbattle.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.racetacticbattle.game.Helpers.Common;
 import com.racetacticbattle.game.MainGame;
-import com.racetacticbattle.game.MenuModels.MenuButton;
-import com.racetacticbattle.game.MenuModels.MenuDialog;
-import com.racetacticbattle.game.MenuModels.MenuInput;
-
-import pl.mk5.gdx.fireapp.GdxFIRAuth;
-import pl.mk5.gdx.fireapp.auth.GdxFirebaseUser;
-import pl.mk5.gdx.fireapp.functional.BiConsumer;
-import pl.mk5.gdx.fireapp.functional.Consumer;
 
 public class LoginScreen extends LoginRegisterAbstractScreen {
+    public boolean loggedIn = false;
+
     public LoginScreen(MainGame context) {
         super(context);
         int j = 1;
+        float positionX;
+        float positionY;
+        int boxDivider = 7;
         customInputProcessor.setScreenType(ScreenType.LOGIN);
+        customInputProcessor.setLoginContext(this);
         for (int i = 0; i < 2; i++) {
             String buttonTitle;
             if (i == 0) {
@@ -27,7 +26,16 @@ public class LoginScreen extends LoginRegisterAbstractScreen {
             } else {
                 buttonTitle = "Register";
             }
-            MenuButton menuButton = new MenuButton(skin, i, j, buttonTitle);
+            if (j < 2) {
+                positionX = Common.WORLD_WIDTH - Common.WORLD_WIDTH * 0.95f;
+            } else {
+                positionX = Common.WORLD_WIDTH - Common.WORLD_WIDTH * 0.95f / 2;
+            }
+            positionY = Common.WORLD_HEIGHT - Common.buttonContainerHeight + Common.buttonContainerHeight / 12;
+
+            TextButton menuButton = new TextButton(buttonTitle, skin);
+            menuButton.setPosition(positionX, positionY);
+            menuButton.setSize(Common.buttonContainerWidth / 2, Common.buttonContainerHeight / 6);
             menuButtons.add(menuButton);
             stage.addActor(menuButton);
             j += 2;
@@ -41,7 +49,16 @@ public class LoginScreen extends LoginRegisterAbstractScreen {
                 textInput = "Password";
 
             }
-            MenuInput menuInputTmp = new MenuInput(skin, i == 1 || i == 2, j, 1, ScreenType.LOGIN, textInput);
+            TextField menuInputTmp = new TextField("", skin);
+            positionX = Common.WORLD_WIDTH - Common.WORLD_WIDTH * 0.95f;
+            positionY = Common.buttonContainerHeight - Common.buttonContainerHeight / boxDivider * j;
+            menuInputTmp.setPosition(positionX, positionY);
+
+            menuInputTmp.setSize(Common.buttonContainerWidth, Common.buttonContainerHeight / 6);
+//        setColor(Color.GRAY);
+            menuInputTmp.setMessageText(textInput);
+            menuInputTmp.setPasswordCharacter('*');
+            menuInputTmp.setPasswordMode(i == 1);
             menuInputs.add(menuInputTmp);
             stage.addActor(menuInputTmp);
 
@@ -69,6 +86,9 @@ public class LoginScreen extends LoginRegisterAbstractScreen {
         stage.draw();
         stage.act();
         loadingDialog.draw(delta, batch2d);
+
+        if (loggedIn)
+            context.setScreen(ScreenType.MAIN_MENU);
     }
 
     void handleInput() {
@@ -77,47 +97,6 @@ public class LoginScreen extends LoginRegisterAbstractScreen {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
-    private void handleTouchForLogin() {
-        for (MenuButton menuButton : menuButtons) {
-            if (menuButton.isPressed()) {
-                switch (menuButton.getButtonId()) {
-                    case 0:
-                        loadingDialog.show(menuButtons, menuInputs);
-                        if (!menuInputs.get(0).getText().equals("") && menuInputs.get(0).getText() != null &&
-                                !menuInputs.get(1).getText().equals("") && menuInputs.get(1).getText() != null) {
-                            GdxFIRAuth.inst()
-                                    .signInWithEmailAndPassword(menuInputs.get(0).getText(), menuInputs.get(1).getText().toCharArray())
-                                    .then(new Consumer<GdxFirebaseUser>() {
-                                        @Override
-                                        public void accept(GdxFirebaseUser gdxFirebaseUser) {
-                                            loadingDialog.clear(menuButtons, menuInputs);
-                                            menuButtons.clear();
-                                            menuInputs.clear();
-                                            inputMultiplexer.clear();
-                                            context.setScreen(ScreenType.MAIN_MENU);
-                                        }
-                                    }).fail(new BiConsumer<String, Throwable>() {
-                                        @Override
-                                        public void accept(String s, Throwable throwable) {
-
-                                            loadingDialog.clear(menuButtons, menuInputs);
-                                            menuDialog = new MenuDialog("Sign in failed");
-                                            menuDialog.showText(s, stage);
-                                        }
-                                    });
-                        } else {
-                            loadingDialog.clear(menuButtons, menuInputs);
-                            menuDialog = new MenuDialog("Error with login");
-                            menuDialog.showText("Inputs are empty", stage);
-                        }
-                        break;
-                    case 1:
-                        context.setScreen(ScreenType.REGISTER);
-                        break;
-                }
-            }
-        }
-    }
     @Override
     public void pause() {
 
