@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.racetacticbattle.game.Inputs.CustomInputProcessor;
+import com.racetacticbattle.game.Inputs.LoginRegisterInputProcess;
 import com.racetacticbattle.game.MainGame;
 import com.racetacticbattle.game.MenuModels.LoadingDialog;
 import com.racetacticbattle.game.MenuModels.MenuDialog;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 
 public abstract class LoginRegisterAbstractScreen extends AbstractScreen {
 
-    Texture background, button, pressed_texture;
+    Texture background;
 
     ArrayList<TextButton> menuButtons;
     ArrayList<TextField> menuInputs;
@@ -30,12 +31,10 @@ public abstract class LoginRegisterAbstractScreen extends AbstractScreen {
 
         inputMultiplexer = new InputMultiplexer();
         background = new Texture("Screens/mainManuBg.png");
-        button = new Texture("Screens/button.png");
-        pressed_texture = new Texture("Screens/pressedTexture.png");
         menuButtons = new ArrayList<>();
         menuInputs = new ArrayList<>();
         loadingDialog = new LoadingDialog();
-        customInputProcessor = new CustomInputProcessor(context, viewport, menuButtons, menuInputs, stage, inputMultiplexer, loadingDialog);
+        customInputProcessor = new LoginRegisterInputProcess(context, viewport, menuButtons, menuInputs, stage, inputMultiplexer, loadingDialog);
     }
 
     abstract void handleInput();

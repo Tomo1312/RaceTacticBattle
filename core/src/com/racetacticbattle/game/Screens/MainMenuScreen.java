@@ -10,7 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.racetacticbattle.game.Helpers.Common;
+import com.racetacticbattle.game.Inputs.CustomInputProcessor;
+import com.racetacticbattle.game.Inputs.LoginRegisterInputProcess;
+import com.racetacticbattle.game.Inputs.MainMenuInputProcessor;
 import com.racetacticbattle.game.MainGame;
+import com.racetacticbattle.game.MenuModels.LoadingDialog;
 import com.racetacticbattle.game.MenuModels.MainMenuInfo;
 
 import java.util.ArrayList;
@@ -18,8 +22,11 @@ import java.util.ArrayList;
 public class MainMenuScreen extends AbstractScreen {
     ArrayList<TextButton> menuButtons;
     ArrayList<ImageButton> infoButtons;
-    ArrayList<TextField> menuInputs;
     MainMenuInfo mainMenuInfo;
+    CustomInputProcessor customInputProcessor;
+    InputMultiplexer inputMultiplexer;
+    LoadingDialog loadingDialog;
+    boolean goToRoom;
 
     public MainMenuScreen(MainGame context) {
         super(context);
@@ -30,11 +37,14 @@ public class MainMenuScreen extends AbstractScreen {
 
         infoButtons = new ArrayList<>();
         mainMenuInfo.generateButtons(infoButtons, stage);
+        loadingDialog = new LoadingDialog();
+        customInputProcessor = new MainMenuInputProcessor(context, viewport, menuButtons, infoButtons, stage, inputMultiplexer, loadingDialog);
+        customInputProcessor.setMainMenuScreenContext(this);
+        goToRoom = false;
     }
 
     private void setupButtons() {
         menuButtons = new ArrayList<>();
-        menuInputs = new ArrayList<>();
         float positionX;
         float positionY = Common.WORLD_HEIGHT - Common.WORLD_HEIGHT * 0.9f;
         String buttonTitle;
@@ -88,11 +98,20 @@ public class MainMenuScreen extends AbstractScreen {
 
         stage.draw();
         stage.act();
+        loadingDialog.draw(delta, batch2d);
 
-
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(customInputProcessor);
         inputMultiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(inputMultiplexer);
+
+        if (goToRoom) {
+            menuButtons.clear();
+            infoButtons.clear();
+            inputMultiplexer.clear();
+            stage.clear();
+            context.setScreen(ScreenType.ROOM);
+        }
     }
 
     @Override
@@ -113,5 +132,9 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    public void setGoToRoom(boolean goToRoom) {
+        this.goToRoom = goToRoom;
     }
 }

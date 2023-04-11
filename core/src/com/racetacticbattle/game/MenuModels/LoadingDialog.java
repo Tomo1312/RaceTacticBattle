@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.racetacticbattle.game.Helpers.Common;
@@ -48,11 +49,29 @@ public class LoadingDialog {
             menuButton.setTouchable(Touchable.disabled);
     }
 
+    public void showWithImageButtons(ArrayList<TextButton> menuButtons,
+                     ArrayList<ImageButton> menuImageButtons) {
+        showLoading = true;
+        for (ImageButton menuInput : menuImageButtons)
+            menuInput.setTouchable(Touchable.disabled);
+        for (TextButton menuButton : menuButtons)
+            menuButton.setTouchable(Touchable.disabled);
+    }
+
     public void clear(ArrayList<TextButton> menuButtons,
                       ArrayList<TextField> menuInputs) {
         showLoading = false;
         for (TextField menuInput : menuInputs)
             menuInput.setDisabled(false);
+        for (TextButton menuButton : menuButtons)
+            menuButton.setTouchable(Touchable.enabled);
+    }
+
+    public void clearWithImageButtons(ArrayList<TextButton> menuButtons,
+                      ArrayList<ImageButton> menuImageButtons) {
+        showLoading = false;
+        for (ImageButton menuInput : menuImageButtons)
+            menuInput.setTouchable(Touchable.enabled);
         for (TextButton menuButton : menuButtons)
             menuButton.setTouchable(Touchable.enabled);
     }

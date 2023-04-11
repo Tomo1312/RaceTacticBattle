@@ -12,6 +12,7 @@ import com.racetacticbattle.game.MenuModels.LoadingDialog;
 import com.racetacticbattle.game.MenuModels.MenuDialog;
 import com.racetacticbattle.game.Models.User;
 import com.racetacticbattle.game.Screens.LoginScreen;
+import com.racetacticbattle.game.Screens.MainMenuScreen;
 import com.racetacticbattle.game.Screens.ScreenType;
 
 
@@ -28,19 +29,18 @@ public class CustomInputProcessor implements InputProcessor {
     protected final MainGame context;
     StretchViewport viewport;
     ArrayList<TextButton> menuButtons;
-    ArrayList<TextField> menuInputs;
     Stage stage;
     ScreenType screenType;
     MenuDialog menuDialog;
     InputMultiplexer inputMultiplexer;
     LoadingDialog loadingDialog;
     LoginScreen loginScreen;
+    MainMenuScreen mainMenuScreen;
 
-    public CustomInputProcessor(MainGame context, StretchViewport viewport, ArrayList<TextButton> menuButtons, ArrayList<TextField> menuInputs, Stage stage, InputMultiplexer inputMultiplexer, LoadingDialog loadingDialog) {
+    public CustomInputProcessor(MainGame context, StretchViewport viewport, ArrayList<TextButton> menuButtons, Stage stage, InputMultiplexer inputMultiplexer, LoadingDialog loadingDialog) {
         this.context = context;
         this.viewport = viewport;
         this.menuButtons = menuButtons;
-        this.menuInputs = menuInputs;
         this.stage = stage;
         this.inputMultiplexer = inputMultiplexer;
         this.loadingDialog = loadingDialog;
@@ -73,107 +73,9 @@ public class CustomInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-//        Vector2 touchPoint = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-//        touchPoint = viewport.unproject(touchPoint);
-        switch (screenType) {
-            case LOGIN:
-                handleTouchForLogin();
-                break;
-            case REGISTER:
-                handleTouchForRegister();
-                break;
-            default:
-                break;
-        }
         return false;
     }
 
-    private void handleTouchForLogin() {
-        if (menuButtons.get(0).isPressed()) {
-            loadingDialog.show(menuButtons, menuInputs);
-            if (!menuInputs.get(0).getText().equals("") && menuInputs.get(0).getText() != null &&
-                    !menuInputs.get(1).getText().equals("") && menuInputs.get(1).getText() != null) {
-                GdxFIRAuth.inst()
-                        .signInWithEmailAndPassword(menuInputs.get(0).getText(), menuInputs.get(1).getText().toCharArray())
-                        .then(new Consumer<GdxFirebaseUser>() {
-                            @Override
-                            public void accept(GdxFirebaseUser gdxFirebaseUser) {
-                                loadingDialog.clear(menuButtons, menuInputs);
-                                menuButtons.clear();
-                                menuInputs.clear();
-                                inputMultiplexer.clear();
-                                stage.clear();
-                                loginScreen.loggedIn = true;
-                            }
-                        }).fail(new BiConsumer<String, Throwable>() {
-                            @Override
-                            public void accept(String s, Throwable throwable) {
-
-                                loadingDialog.clear(menuButtons, menuInputs);
-                                menuDialog = new MenuDialog("Sign in failed");
-                                menuDialog.showText(s, stage);
-                            }
-                        });
-            } else {
-                loadingDialog.clear(menuButtons, menuInputs);
-                menuDialog = new MenuDialog("Error with login");
-                menuDialog.showText("Inputs are empty", stage);
-            }
-        } else if (menuButtons.get(1).isPressed()) {
-            context.setScreen(ScreenType.REGISTER);
-        }
-    }
-
-    private void handleTouchForRegister() {
-
-        if (menuButtons.get(0).isPressed()) {
-            loadingDialog.show(menuButtons, menuInputs);
-            if (!menuInputs.get(0).getText().equals("") && menuInputs.get(0).getText() != null &&
-                    !menuInputs.get(1).getText().equals("") && menuInputs.get(1).getText() != null &&
-                    !menuInputs.get(2).getText().equals("") && menuInputs.get(2).getText() != null &&
-                    !menuInputs.get(3).getText().equals("") && menuInputs.get(3).getText() != null) {
-                if (menuInputs.get(2).getText().equals(menuInputs.get(3).getText())) {
-                    GdxFIRAuth.inst()
-                            .createUserWithEmailAndPassword(menuInputs.get(1).getText(), menuInputs.get(2).getText().toCharArray())
-                            .then(new Consumer<GdxFirebaseUser>() {
-                                @Override
-                                public void accept(GdxFirebaseUser gdxFirebaseUser) {
-                                    User userTmp = new User(menuInputs.get(0).getText(), menuInputs.get(1).getText());
-                                    GdxFIRDatabase.inst()
-                                            .inReference("/Users/" + GdxFIRAuth.inst().getCurrentUser().getUserInfo().getUid() + "")
-                                            .setValue(userTmp);
-//                                                        gdxFirebaseUser.delete().subscribe();
-
-                                    loadingDialog.clear(menuButtons, menuInputs);
-                                    menuDialog = new MenuDialog("Great success");
-                                    menuDialog.showText("Successfully registered!", stage);
-                                }
-                            })
-                            .fail(new BiConsumer<String, Throwable>() {
-                                @Override
-                                public void accept(String s, Throwable throwable) {
-                                    loadingDialog.clear(menuButtons, menuInputs);
-                                    menuDialog = new MenuDialog("Error with Register");
-                                    menuDialog.showText(s, stage);
-                                    if (s.contains("The email address is already in use by another account")) {
-                                        GdxFIRAuth.inst().getCurrentUser().delete().subscribe();
-                                    }
-                                }
-                            });
-                } else {
-                    loadingDialog.clear(menuButtons, menuInputs);
-                    menuDialog = new MenuDialog("Error with Register");
-                    menuDialog.showText("Passwords are not same", stage);
-                }
-            } else {
-                loadingDialog.clear(menuButtons, menuInputs);
-                menuDialog = new MenuDialog("Error with Register");
-                menuDialog.showText("Inputs are empty", stage);
-            }
-        } else if (menuButtons.get(1).isPressed()) {
-            context.setScreen(ScreenType.LOGIN);
-        }
-    }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
@@ -196,6 +98,10 @@ public class CustomInputProcessor implements InputProcessor {
 
     public void setLoginContext(LoginScreen loginScreen) {
         this.loginScreen = loginScreen;
+    }
+
+    public void setMainMenuScreenContext(MainMenuScreen mainMenuScreen) {
+        this.mainMenuScreen = mainMenuScreen;
     }
 }
 

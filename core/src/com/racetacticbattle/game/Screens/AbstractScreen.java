@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.racetacticbattle.game.Inputs.CustomInputProcessor;
 import com.racetacticbattle.game.MainGame;
 
 public abstract class AbstractScreen implements Screen {
@@ -27,13 +28,14 @@ public abstract class AbstractScreen implements Screen {
 
     Skin skin;
     Stage stage;
+
     public AbstractScreen(final MainGame context) {
         this.context = context;
         this.viewport = context.getViewport();
         this.camera2d = context.getCamera2d();
         this.camera3d = context.getCamera3d();
-        this.batch2d = context.getBatch2d();
-        this.batch3d = context.getBatch3d();
+        batch2d = new SpriteBatch();
+        batch3d = new ModelBatch();
         this.stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("Screens/mySkin/moj-skin.json"));
     }
