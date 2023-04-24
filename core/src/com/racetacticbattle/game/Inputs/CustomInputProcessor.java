@@ -26,7 +26,7 @@ import pl.mk5.gdx.fireapp.functional.Consumer;
 
 public class CustomInputProcessor implements InputProcessor {
 
-    protected final MainGame context;
+    protected MainGame context;
     StretchViewport viewport;
     ArrayList<TextButton> menuButtons;
     Stage stage;
@@ -37,10 +37,16 @@ public class CustomInputProcessor implements InputProcessor {
     LoginScreen loginScreen;
     MainMenuScreen mainMenuScreen;
 
-    public CustomInputProcessor(MainGame context, StretchViewport viewport, ArrayList<TextButton> menuButtons, Stage stage, InputMultiplexer inputMultiplexer, LoadingDialog loadingDialog) {
+    public CustomInputProcessor(MainGame context, ArrayList<TextButton> menuButtons, Stage stage, InputMultiplexer inputMultiplexer, LoadingDialog loadingDialog) {
         this.context = context;
-        this.viewport = viewport;
+        this.viewport = context.getViewport();
         this.menuButtons = menuButtons;
+        this.stage = stage;
+        this.inputMultiplexer = inputMultiplexer;
+        this.loadingDialog = loadingDialog;
+    }
+
+    public CustomInputProcessor( Stage stage, InputMultiplexer inputMultiplexer, LoadingDialog loadingDialog) {
         this.stage = stage;
         this.inputMultiplexer = inputMultiplexer;
         this.loadingDialog = loadingDialog;
@@ -75,7 +81,6 @@ public class CustomInputProcessor implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         return false;
     }
-
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {

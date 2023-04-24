@@ -6,7 +6,7 @@ public enum ScreenType {
     LOGIN(LoginScreen.class),
     REGISTER(RegisterScreen.class),
     MAIN_MENU(MainMenuScreen.class),
-    ROOM(RoomScreen.class),
+//    ROOM(RoomScreen.class),
     GAME(GameScreen.class);
 
     private final Class<? extends AbstractScreen> screenClass;

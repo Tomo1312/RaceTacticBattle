@@ -10,7 +10,9 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.racetacticbattle.game.Helpers.Common;
 import com.racetacticbattle.game.MainGame;
 import com.racetacticbattle.game.MenuModels.LoadingDialog;
+import com.racetacticbattle.game.Models.Player;
 import com.racetacticbattle.game.Models.SearchingRoomPlayer;
+import com.racetacticbattle.game.Models.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,14 +38,29 @@ public class MainMenuInputProcessor extends CustomInputProcessor {
     TimerTask task;
 
     final SearchingRoomPlayer playerTmp;
+    User playerUser;
     final SearchingRoomPlayer opponentPlayer;
     String lastOpponentPlayerID = "";
+    GdxFIRDatabase gdxFIRDatabase;
 
-    public MainMenuInputProcessor(MainGame context, StretchViewport viewport, ArrayList<TextButton> menuButtons, ArrayList<ImageButton> menuImageButtons, Stage stage, InputMultiplexer inputMultiplexer, LoadingDialog loadingDialog) {
-        super(context, viewport, menuButtons, stage, inputMultiplexer, loadingDialog);
+    TextButton cancel;
+
+    public void setCancel(TextButton cancel) {
+        this.cancel = cancel;
+    }
+
+    public MainMenuInputProcessor(MainGame context, ArrayList<TextButton> menuButtons, ArrayList<ImageButton> menuImageButtons, Stage stage, InputMultiplexer inputMultiplexer, LoadingDialog loadingDialog) {
+        super(context, menuButtons, stage, inputMultiplexer, loadingDialog);
         this.menuImageButtons = menuImageButtons;
+        this.gdxFIRDatabase = GdxFIRDatabase.inst();
         this.playerTmp = new SearchingRoomPlayer(Common.firebaseUId);
         this.opponentPlayer = new SearchingRoomPlayer();
+        gdxFIRDatabase.inReference("/Users/" + Common.firebaseUId).readValue(User.class).then(new Consumer<User>() {
+            @Override
+            public void accept(User user) {
+                playerUser = user;
+            }
+        });
         timer = new Timer();
         task = new TimerTask() {
             public void run() {
@@ -51,17 +68,19 @@ public class MainMenuInputProcessor extends CustomInputProcessor {
                 if (seconds == 5) {
                     seconds = 0;
                     startLookingForRoom();
-                    GdxFIRDatabase.inst()
-                            .inReference("/Rooms/" + opponentPlayer.getOwnUId() + "/opponentPlayerUId")
+                    gdxFIRDatabase
+                            .inReference("/Rooms/searchingForPlayer/" + opponentPlayer.getOwnUId() + "/opponentPlayerUId")
                             .setValue("none");
                 }
             }
         };
+
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 //        Gdx.app.error("MyTag", "Touch up");
+
         if (menuButtons.get(0).isPressed()) {
 
         } else if (menuButtons.get(1).isPressed()) {
@@ -74,46 +93,37 @@ public class MainMenuInputProcessor extends CustomInputProcessor {
             loadingDialog.showWithImageButtons(menuButtons, menuImageButtons);
             startLookingForRoom();
 
+        } else if (cancel != null && cancel.isPressed()) {
+            gdxFIRDatabase
+                    .inReference("/Rooms/searchingForPlayer/" + Common.firebaseUId).removeValue();
+            listener.cancel();
+            task.cancel();
+            loadingDialog.clearWithImageButtons(menuButtons, menuImageButtons);
+            mainMenuScreen.deleteCancelButton();
+
         }
         return false;
     }
 
     private void startLookingForRoom() {
 
-        GdxFIRDatabase.inst()
-                .inReference("/Rooms/" + playerTmp.getOwnUId())
+        gdxFIRDatabase
+                .inReference("/Rooms/searchingForPlayer/" + playerTmp.getOwnUId())
                 .setValue(playerTmp);
-        GdxFIRDatabase.inst()
-                .inReference("/Rooms")
+        gdxFIRDatabase
+                .inReference("/Rooms/searchingForPlayer")
                 .readValue(ArrayList.class)
                 .then(new Consumer<ArrayList<SearchingRoomPlayer>>() {
                     @MapConversion(SearchingRoomPlayer.class)
                     @Override
                     public void accept(ArrayList<SearchingRoomPlayer> opponentPlayerTmps) {
-//                            if (opponentPlayerTmp.opponentPlayerUId.equals("none")) {
-//                                GdxFIRDatabase.inst()
-//                                        .inReference("/Rooms/" + opponentPlayerTmp.ownUId + "/opponentPlayerUId")
-//                                        .setValue(playerTmp.ownUId);
-//                            } else
-//                        for (int i = 0; i < opponentPlayerTmps.size(); i++) {
-//                            Gdx.app.log("App", "opponentPlayerTmps.get(" + i + "):" + opponentPlayerTmps.get(i));
 
-//                            Gdx.app.log("App", "opponentPlayerTmps.getOpponentPlayerUId(" + i + "):" + opponentPlayerTmps.get(i).getOwnUId());
-
-//                        }
                         for (SearchingRoomPlayer opponentPlayerTmp : opponentPlayerTmps) {
-//                            if (opponentPlayerTmp.getOwnUId().equals(playerTmp.getOpponentPlayerUId()) && !opponentPlayerTmp.getOpponentPlayerUId().equals("none")) {
-//                                Gdx.app.log("App", "Game Started: 1 ");
-//                                listener.cancel();
-//                                task.cancel();
-//                                loadingDialog.clearWithImageButtons(menuButtons, menuImageButtons);
-//                                break;
-//                            } else
                             if (opponentPlayerTmp.getOpponentPlayerUId().equals("none") && !opponentPlayerTmp.getOwnUId().equals(playerTmp.getOwnUId())
                                     && !opponentPlayerTmp.getOwnUId().equals(lastOpponentPlayerID)) {
-                                GdxFIRDatabase.inst()
-                                        .inReference("/Rooms/" + opponentPlayerTmp.getOwnUId() + "/opponentPlayerUId")
-                                        .setValue(playerTmp.getOwnUId());
+                                gdxFIRDatabase
+                                        .inReference("/Rooms/searchingForPlayer/" + opponentPlayerTmp.getOwnUId() + "/opponentPlayerUId")
+                                        .setValue(Common.firebaseUId);
                                 opponentPlayer.setOwnUId(opponentPlayerTmp.getOwnUId());
                                 opponentPlayer.setOpponentPlayerUId(opponentPlayerTmp.getOpponentPlayerUId());
                                 lastOpponentPlayerID = opponentPlayerTmp.getOwnUId();
@@ -128,22 +138,43 @@ public class MainMenuInputProcessor extends CustomInputProcessor {
 
     private void startListener() {
         if (listener == null) {
-            listener = GdxFIRDatabase.inst()
-                    .inReference("/Rooms/" + playerTmp.getOwnUId() + "/opponentPlayerUId")
+            listener = gdxFIRDatabase
+                    .inReference("/Rooms/searchingForPlayer/" + playerTmp.getOwnUId() + "/opponentPlayerUId")
                     .onDataChange(String.class)
                     .thenListener(new Consumer<String>() {
                         @Override
                         public void accept(String opponentPlayerUId) {
-                            if (opponentPlayerUId.equals("none")) {
-                                Gdx.app.log("App", "new value: " + opponentPlayerUId);
-                            } else if (opponentPlayerUId.contains(opponentPlayer.getOwnUId())) {
+//                            if (opponentPlayerUId.equals("none")) {
+//                                Gdx.app.log("App", "new value: " + opponentPlayerUId);
+//                            } else
+                            if (opponentPlayerUId.contains(opponentPlayer.getOwnUId())) {
+
                                 playerTmp.setOpponentPlayerUId(opponentPlayerUId);
                                 if (!opponentPlayerUId.contains("dontsend")) {
-                                    GdxFIRDatabase.inst()
-                                            .inReference("/Rooms/" + opponentPlayerUId + "/opponentPlayerUId")
+                                    gdxFIRDatabase
+                                            .inReference("/Rooms/searchingForPlayer/" + opponentPlayerUId + "/opponentPlayerUId")
                                             .setValue(playerTmp.getOwnUId() + ",dontsend");
+                                    gdxFIRDatabase
+                                            .inReference("/Users/" + playerTmp.getOwnUId() + "/room")
+                                            .setValue(playerTmp.getOwnUId() + opponentPlayerUId);
+                                    Player player = new Player(playerUser.getUsername());
+                                    gdxFIRDatabase
+                                            .inReference("/Rooms/" + playerTmp.getOwnUId() + opponentPlayerUId + "/" + player.getPlayerName())
+                                            .setValue(player);
+                                    gdxFIRDatabase
+                                            .inReference("/Rooms/" + playerTmp.getOwnUId() + opponentPlayerUId + "/firstPlayer")
+                                            .setValue(player.getPlayerName());
+                                } else {
+                                    String tempUid = opponentPlayerUId.replace(",dontsend", "");
+                                    gdxFIRDatabase
+                                            .inReference("/Users/" + playerTmp.getOwnUId() + "/room")
+                                            .setValue(tempUid + playerTmp.getOwnUId());
+                                    Player player = new Player(playerUser.getUsername());
+                                    gdxFIRDatabase
+                                            .inReference("/Rooms/" + tempUid + playerTmp.getOwnUId() + "/" + player.getPlayerName())
+                                            .setValue(player);
                                 }
-                                Gdx.app.log("App", "Game Started" + opponentPlayerUId);
+                                gdxFIRDatabase = null;
                                 listener.cancel();
                                 task.cancel();
                                 loadingDialog.clearWithImageButtons(menuButtons, menuImageButtons);
@@ -152,6 +183,7 @@ public class MainMenuInputProcessor extends CustomInputProcessor {
 
                         }
                     });
+            mainMenuScreen.showCancelButton();
         }
     }
 //
@@ -241,6 +273,7 @@ public class MainMenuInputProcessor extends CustomInputProcessor {
 //            context.setScreen(ScreenType.LOGIN);
 //        }
 //    }
+
 }
 
 

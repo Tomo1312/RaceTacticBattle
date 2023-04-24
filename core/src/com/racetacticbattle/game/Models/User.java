@@ -1,16 +1,28 @@
 package com.racetacticbattle.game.Models;
 
 public class User {
-    String username, email, friends;
-    int wins, loses;
+    String username, email, friends, room, wins, loses;
+
+    public User() {
+    }
 
     public User(String username, String email) {
         this.username = username;
         this.email = email;
         this.friends = "";
-        this.wins = 0;
-        this.loses = 0;
+        this.wins = "0";
+        this.loses = "0";
+        this.room = "";
     }
+
+//    public User(String username) {
+//        this.username = username;
+//        this.email = "";
+//        this.friends = "";
+//        this.wins = 0;
+//        this.loses = 0;
+//        this.room = "";
+//    }
 
     public String getUsername() {
         return username;
@@ -36,19 +48,27 @@ public class User {
         this.friends = friends;
     }
 
-    public int getWins() {
+    public String getWins() {
         return wins;
     }
 
     public void setWins() {
-        this.wins += 1;
+        this.wins = String.valueOf(Integer.parseInt(this.wins) + 1);
     }
 
-    public int getLoses() {
+    public String getLoses() {
         return loses;
     }
 
     public void setLoses() {
-        this.loses += 1;
+        this.loses = String.valueOf(Integer.parseInt(this.loses) + 1);;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 }

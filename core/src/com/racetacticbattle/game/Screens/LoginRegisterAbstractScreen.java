@@ -23,18 +23,16 @@ public abstract class LoginRegisterAbstractScreen extends AbstractScreen {
     ArrayList<TextField> menuInputs;
     //    TextField txtUsername;
     CustomInputProcessor customInputProcessor;
-    InputMultiplexer inputMultiplexer;
     LoadingDialog loadingDialog;
 
     public LoginRegisterAbstractScreen(MainGame context) {
         super(context);
 
-        inputMultiplexer = new InputMultiplexer();
         background = new Texture("Screens/mainManuBg.png");
         menuButtons = new ArrayList<>();
         menuInputs = new ArrayList<>();
         loadingDialog = new LoadingDialog();
-        customInputProcessor = new LoginRegisterInputProcess(context, viewport, menuButtons, menuInputs, stage, inputMultiplexer, loadingDialog);
+        customInputProcessor = new LoginRegisterInputProcess(context, menuButtons, menuInputs, stage, inputMultiplexer, loadingDialog);
     }
 
     abstract void handleInput();

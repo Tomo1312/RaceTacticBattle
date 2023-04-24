@@ -53,7 +53,7 @@ public class MainGame extends Game {
 
 
         if (GdxFIRAuth.inst().getCurrentUser() != null) {
-            setScreen(ScreenType.MAIN_MENU);
+            setScreen(ScreenType.GAME);
         } else {
             setScreen(ScreenType.LOGIN);
         }

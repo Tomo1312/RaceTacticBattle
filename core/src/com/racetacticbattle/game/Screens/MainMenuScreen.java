@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -23,23 +25,18 @@ public class MainMenuScreen extends AbstractScreen {
     ArrayList<TextButton> menuButtons;
     ArrayList<ImageButton> infoButtons;
     MainMenuInfo mainMenuInfo;
-    CustomInputProcessor customInputProcessor;
+    MainMenuInputProcessor customInputProcessor;
     InputMultiplexer inputMultiplexer;
     LoadingDialog loadingDialog;
     boolean goToRoom;
+    TextButton cancel;
 
     public MainMenuScreen(MainGame context) {
         super(context);
         //		GdxFIRAuth.inst().signOut();
         skin = new Skin(Gdx.files.internal("Screens/mySkin/MainMenuGame.json"));
-        setupButtons();
-        mainMenuInfo = new MainMenuInfo(skin);
-
-        infoButtons = new ArrayList<>();
-        mainMenuInfo.generateButtons(infoButtons, stage);
         loadingDialog = new LoadingDialog();
-        customInputProcessor = new MainMenuInputProcessor(context, viewport, menuButtons, infoButtons, stage, inputMultiplexer, loadingDialog);
-        customInputProcessor.setMainMenuScreenContext(this);
+        setupButtons();
         goToRoom = false;
     }
 
@@ -79,7 +76,13 @@ public class MainMenuScreen extends AbstractScreen {
             menuButton.setSize(Common.buttonWidth, Common.buttonHeight);
             menuButtons.add(menuButton);
             stage.addActor(menuButton);
+
+            infoButtons = new ArrayList<>();
+            mainMenuInfo = new MainMenuInfo(skin);
+            mainMenuInfo.generateButtons(infoButtons, stage);
         }
+        customInputProcessor = new MainMenuInputProcessor(context, menuButtons, infoButtons, stage, inputMultiplexer, loadingDialog);
+        customInputProcessor.setMainMenuScreenContext(this);
     }
 
     @Override
@@ -110,7 +113,21 @@ public class MainMenuScreen extends AbstractScreen {
             infoButtons.clear();
             inputMultiplexer.clear();
             stage.clear();
-            context.setScreen(ScreenType.ROOM);
+            context.setScreen(ScreenType.GAME);
+        }
+    }
+
+    public void showCancelButton() {
+        cancel = new TextButton("CANCEL", skin);
+        cancel.setPosition(Common.WORLD_WIDTH / 2 - Common.buttonWidth / 2, Common.WORLD_HEIGHT / 2 - Common.buttonHeight / 2);
+        cancel.setSize(Common.buttonWidth, Common.buttonHeight);
+        stage.addActor(cancel);
+        customInputProcessor.setCancel(cancel);
+    }
+
+    public void deleteCancelButton() {
+        if (cancel != null) {
+            cancel.remove();
         }
     }
 

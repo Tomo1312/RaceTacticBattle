@@ -116,6 +116,12 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 		name: white-pixel
 		color: selection
 	}
+	ProgressBarKnob: {
+		name: white-pixel
+		color: FontColor
+		minWidth: 3
+		minHeight: 3
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	default: {
@@ -173,7 +179,8 @@ com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
 	default-horizontal: {
 		background: ScrollBar
-		knob: ScrollBarAfter
+		knob: ProgressBarKnob
+		knobBefore: ProgressBarKnob
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {

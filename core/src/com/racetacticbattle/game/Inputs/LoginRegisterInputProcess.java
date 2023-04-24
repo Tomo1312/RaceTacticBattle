@@ -26,8 +26,8 @@ public class LoginRegisterInputProcess extends CustomInputProcessor {
 
     ArrayList<TextField> menuInputs;
 
-    public LoginRegisterInputProcess(MainGame context, StretchViewport viewport, ArrayList<TextButton> menuButtons, ArrayList<TextField> menuInputs, Stage stage, InputMultiplexer inputMultiplexer, LoadingDialog loadingDialog) {
-        super(context, viewport,  menuButtons, stage, inputMultiplexer, loadingDialog);
+    public LoginRegisterInputProcess(MainGame context, ArrayList<TextButton> menuButtons, ArrayList<TextField> menuInputs, Stage stage, InputMultiplexer inputMultiplexer, LoadingDialog loadingDialog) {
+        super(context, menuButtons, stage, inputMultiplexer, loadingDialog);
         this.menuInputs = menuInputs;
 
     }
@@ -116,7 +116,7 @@ public class LoginRegisterInputProcess extends CustomInputProcessor {
                                     menuDialog = new MenuDialog("Error with Register");
                                     menuDialog.showText(s, stage);
                                     if (s.contains("The email address is already in use by another account")) {
-                                        GdxFIRAuth.inst().getCurrentUser().delete().subscribe();
+//                                        GdxFIRAuth.inst().getCurrentUser().delete().subscribe();
                                     }
                                 }
                             });

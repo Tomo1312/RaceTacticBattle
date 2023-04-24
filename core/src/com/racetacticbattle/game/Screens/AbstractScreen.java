@@ -1,6 +1,7 @@
 package com.racetacticbattle.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -28,16 +29,18 @@ public abstract class AbstractScreen implements Screen {
 
     Skin skin;
     Stage stage;
+    InputMultiplexer inputMultiplexer;
 
     public AbstractScreen(final MainGame context) {
         this.context = context;
         this.viewport = context.getViewport();
         this.camera2d = context.getCamera2d();
         this.camera3d = context.getCamera3d();
-        batch2d = new SpriteBatch();
-        batch3d = new ModelBatch();
+        this.batch2d = new SpriteBatch();
+        this.batch3d = new ModelBatch();
         this.stage = new Stage(viewport);
-        skin = new Skin(Gdx.files.internal("Screens/mySkin/moj-skin.json"));
+        this.skin = new Skin(Gdx.files.internal("Screens/mySkin/moj-skin.json"));
+        this.inputMultiplexer = new InputMultiplexer();
     }
 
     @Override

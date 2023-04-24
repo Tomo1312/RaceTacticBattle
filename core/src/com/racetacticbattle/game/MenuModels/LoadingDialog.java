@@ -28,6 +28,14 @@ public class LoadingDialog {
         this.showLoading = false;
     }
 
+    public boolean isShowLoading() {
+        return showLoading;
+    }
+
+    public void setShowLoading(boolean showLoading) {
+        this.showLoading = showLoading;
+    }
+
     public void draw(float delta, SpriteBatch batch2d) {
         if (showLoading) {
             final float speed = 100f; // in degrees per second
@@ -39,6 +47,7 @@ public class LoadingDialog {
             batch2d.end();
         }
     }
+
 
     public void show(ArrayList<TextButton> menuButtons,
                      ArrayList<TextField> menuInputs) {
@@ -55,7 +64,8 @@ public class LoadingDialog {
         for (ImageButton menuInput : menuImageButtons)
             menuInput.setTouchable(Touchable.disabled);
         for (TextButton menuButton : menuButtons)
-            menuButton.setTouchable(Touchable.disabled);
+            if(!menuButton.getText().equals("CANCEL"))
+                menuButton.setTouchable(Touchable.disabled);
     }
 
     public void clear(ArrayList<TextButton> menuButtons,
